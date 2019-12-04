@@ -139,8 +139,8 @@ def install_build(installer_path):
         cmd = '"C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\BCC13_AE_WinESD.exe"' + ' /VERYSILENT  /SP-'
         ret_val = subprocess.call(cmd)
         print("Finished running the silent install")
-        activate_license.activate_license(1397-3766-7629-7051)
-        #activate_license.find_license()
+        #activate_license.activate_license(1397-3766-7629-7051)
+        activate_license.find_license()
 
 
 def get_latest_build_path(base_folder):

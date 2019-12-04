@@ -375,7 +375,7 @@ class ConfigParams(object):
                 print("***ConfigParams::init_config installed_plugin_script doesn't exist: " + ConfigParams.installed_plugin_script)
 
             if ConfigParams.use_tif_format:
-                ConfigParams.render_test_script = os.path.join(ConfigParams.base_directory, "ae_scripts/render_test_tiff.jsx")
+                ConfigParams.render_test_script = os.path.join(ConfigParams.base_directory, "ae_scripts/render_license_test.jsx")
             else:
                 ConfigParams.render_test_script = os.path.join(ConfigParams.base_directory, "ae_scripts/render_test_openexr.jsx")
             ConfigParams.render_test_script = os.path.abspath(ConfigParams.render_test_script)

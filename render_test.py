@@ -34,8 +34,7 @@ def _run_render_test():
         os.mkdir(exp_dir)
     if not os.path.isdir(test_dir):
         os.mkdir(test_dir)
-#C:\Users\Niall Buckley\Documents\ae_test_env\ae_shared_proj_results\license_test\BCC_AE\BCC11_3D_Objects\BCC_Extruded_Spline\480x270_sq
-#C:\Users\Niall Buckley\Documents\ae_test_env\ae_shared_proj_results\license_test\BCC_AE\BCC11_3D_Objects\BCC_Extruded_Spline\480x270_sq\expected_results
+
     if not plat_utils.run_ae_script(config.ConfigParams.render_test_script, config.ConfigParams.target_app):
        print("ERROR RENDERING")
 

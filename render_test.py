@@ -2,6 +2,7 @@ import json
 import os
 import time
 import config
+import image_comp
 
 import test_utils
 if test_utils.is_mac():
@@ -37,6 +38,79 @@ def _run_render_test():
 
     if not plat_utils.run_ae_script(config.ConfigParams.render_test_script, config.ConfigParams.target_app):
        print("ERROR RENDERING")
+
+    _compare_and_report_results(base_directory)
+
+def _compare_render_results(test_results_directory, expected_results_directory):
+    """
+    _compare_render_results will iterate through the test_results_directory and compare the images with the known
+    good results in the expected_results_directory. For each image it will add a result record
+    :param test_results_directory: path to the test result images
+    :param expected_results_directory: path to the directory of known good results
+    :return: none, but this function will enter a result in the results module with the results for each images
+    """
+    err_desc = ""
+
+    #to corroborate that the below code is correct and to make sure that the missing tests come from AE or those scripts:
+    if os.listdir(test_results_directory) != os.listdir(expected_results_directory) and os.listdir(test_results_directory):
+        print('Test Results do not Match Expected results!!')
+        for test_res in os.listdir(test_results_directory):
+            if not test_res in os.listdir(expected_results_directory):
+                print('**No expected result for: ' + test_res)
+
+    for test_result_name in os.listdir(test_results_directory):
+        if test_result_name.endswith('.exr') or test_result_name.endswith('.tif'):
+            # For each file in the test results directory we need to find the matching file in the expected results folder
+
+            #logging.info("Comparing results: " + test_result_name)
+            #print("Comparing results: " + test_result_name)
+            test_file = os.path.join(test_results_directory, test_result_name)
+            expected_file = os.path.join(expected_results_directory, test_result_name)
+
+            # If the matching bit depth file doesn't exist, try the float version
+            if not os.path.exists(expected_file):
+                if "_8_" in test_file:
+                    expected_file = expected_file.replace("_8_", "_32_")
+                elif "_16_" in test_file:
+                    expected_file = expected_file.replace("_16_", "_32_")
+
+            if os.path.exists(expected_file):
+                # results_dict = image_utils.compare_image_files(test_file, expected_file)
+                results_dict = image_comp.compare_image_files(test_file, expected_file)
+
+                if results_dict.get("success"):
+                    os.remove(test_file)
+                    print("Comparing succeeded: " + os.path.basename(test_file))
+                    success = True
+                else:
+                    error_status_dict = results_dict.get("error_status")
+                    err_desc = error_status_dict.get("message")
+                    print(err_desc)
+                    print("Comparing Failed: " + os.path.basename(test_file))
+                    success = False
+            else:
+                success = False
+                err_desc = "Expected Result missing: {} ".format(os.path.basename(expected_file))
+
+            # make the path a bit shorter for display
+            test_file_path = test_file.replace(config.ConfigParams.base_directory, '')
+            test_file_path = test_file_path.replace('test_results', '')
+            #results.TestResults.add_render_result("Verify Render:{}".format(test_file_path), success, err_desc)
+
+
+def _compare_and_report_results(base_directory):
+    """
+    _compare_and_report_results does the setup in order to call _compare_render_results
+    it will build the paths for the test results and expected results
+    :param base_directory: the project directory that should contain directories named
+    test_results and expected_results
+    :return: none
+    """
+    test_results_directory = os.path.join(base_directory, "test_results")
+    expected_results_directory = os.path.join(base_directory, "expected_results")
+
+    _compare_render_results(test_results_directory, expected_results_directory)
+
 
 def _write_config_file(project_file, base_directory, config_file_path, create_test_data):
     """

@@ -1,3 +1,4 @@
+import argparse
 import os
 import config
 import subprocess
@@ -32,6 +33,52 @@ if test_utils.is_mac():
     import mac_utils as plat_utils
 elif test_utils.is_win():
     import win_utils as plat_utils
+
+
+def handle_cmd_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--mocha", help="override config file to run tests for mocha", action='store_true')
+    parser.add_argument('--sapphire', help='override config file to run tests for Sapphire', action='store_true')
+    parser.add_argument('--pprobcc', help='override config file to run tests for Premiere Pro render test', action='store_true')
+    parser.add_argument('--pprosapphire', help='override config file to run tests for Premiere Pro render test', action='store_true')
+
+    # OFX cmds:
+    parser.add_argument("--nukerender", help='', action='store_true')
+    parser.add_argument("--nukesapphirerender", help='', action='store_true')
+
+    args = parser.parse_args()
+
+    if args.mocha:
+        config.ConfigParams.html_results_filename = "MPP4BCC-AE_render_results_"
+        config.ConfigParams.log_file_name = 'mpp4ae_render_'
+        config.ConfigParams.plugin_install = 'Mocha-AE'
+        config.ConfigParams.run_installed_plugins_test = False
+        config.ConfigParams.mocha_render_test = True
+        config.ConfigParams.render_test_directories = config.ConfigParams.mocha_test_directories
+        config.ConfigParams.copy_mocha_results = True
+        config.ConfigParams.copy_results = False
+        config.ConfigParams.license_path = ''
+
+    if args.sapphire:
+        config.ConfigParams.html_results_filename =  "Sapphire_render_results_"
+        config.ConfigParams.log_file_name = 'sapphire_render_'
+        config.ConfigParams.plugin_install = 'Sapphire'
+        config.ConfigParams.run_installed_plugins_test = False
+        #config.ConfigParams.mocha_render_test = True
+        config.ConfigParams.render_test_directories = config.ConfigParams.sapphire_test_directories
+        config.ConfigParams.license_path = '"C:\\Program Files\\GenArts\\SapphireAE\\license-tool\\license-tool"'
+        # shortens the proj length to 5 frames for the render tests
+        #   Come back to!!!!
+        #config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
+
+    if args.pprobcc:
+        config.ConfigParams.html_results_filename = "ppro_render_test_results"
+        config.ConfigParams.log_file_name = 'ppro_render'
+        # config.ConfigParams.plugin_install = 'BCC'
+        config.ConfigParams.run_installed_plugins_test = False
+
+        # Set the application and tests to run to premiere pro:
+        config.ConfigParams.run_ppro_tests = True
 
 
 def install_latest_bcc_build():
@@ -221,6 +268,9 @@ if __name__ == "__main__":
 
     try:
         config.ConfigParams.init_config()
+
+        # Handle command line args
+        handle_cmd_args()
 
         install_complete = False
         if(install_latest_bcc_build()):

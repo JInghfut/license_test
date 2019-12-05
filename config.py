@@ -171,6 +171,9 @@ class ConfigParams(object):
     nuke_app_path = ''
     nuke_py = ''
 
+    license_success = False
+    license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"'
+
     @staticmethod
     def init_config():
         """

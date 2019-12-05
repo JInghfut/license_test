@@ -81,21 +81,24 @@ def _compare_render_results(test_results_directory, expected_results_directory):
                 if results_dict.get("success"):
                     os.remove(test_file)
                     print("Comparing succeeded: " + os.path.basename(test_file))
-                    success = True
+                    config.ConfigParams.license_success = True
                 else:
                     error_status_dict = results_dict.get("error_status")
                     err_desc = error_status_dict.get("message")
                     print(err_desc)
                     print("Comparing Failed: " + os.path.basename(test_file))
-                    success = False
             else:
-                success = False
                 err_desc = "Expected Result missing: {} ".format(os.path.basename(expected_file))
 
             # make the path a bit shorter for display
             test_file_path = test_file.replace(config.ConfigParams.base_directory, '')
             test_file_path = test_file_path.replace('test_results', '')
             #results.TestResults.add_render_result("Verify Render:{}".format(test_file_path), success, err_desc)
+
+    if config.ConfigParams.license_success:
+        print("License activated successfully")
+    else:
+        print("License activated unsuccessfully")
 
 
 def _compare_and_report_results(base_directory):

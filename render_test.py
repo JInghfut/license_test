@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import time
 import config
 import image_comp
@@ -20,8 +21,8 @@ def _run_render_test():
     :param is_creating_test_data: a bool stating whether to create test data (written to the expected results folder)
     :return: none
     """
-    project_file =  "\\\\horton\DedupedData\\ae_test_projects\\license_test\\BCC_AE\\BCC11_3D_Objects\\BCC_Extruded_Spline\\480x270_Sq\\480x270_Sq.aep"
-    base_directory = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_shared_proj_results\\license_test\\BCC_AE\\BCC11_3D_Objects\\BCC_Extruded_Spline\\480x270_Sq'
+    project_file =  "\\\\horton\DedupedData\\ae_test_projects\\license_test\\Sapphire_AE\\S_Render\\S_Aurora\\S_Aurora.aep"
+    base_directory = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_shared_proj_results\\license_test\\Sapphire_AE\\S_Render\\S_Aurora'
     config_file_path = "C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_scripts\\config.json"
     is_creating_test_data = False
     #if (bcc)
@@ -97,6 +98,8 @@ def _compare_render_results(test_results_directory, expected_results_directory):
 
     if config.ConfigParams.license_success:
         print("License activated successfully")
+        cmd = config.ConfigParams.license_path + ' --deactivate '
+        ret_val = subprocess.call(cmd)
     else:
         print("License activated unsuccessfully")
 

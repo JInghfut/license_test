@@ -3,6 +3,7 @@ import os
 import config
 import subprocess
 import activate_license
+import sapphire_install
 import shlex
 #import logging
 #import test_main
@@ -272,12 +273,27 @@ if __name__ == "__main__":
         # Handle command line args
         handle_cmd_args()
 
-        install_complete = False
-        if(install_latest_bcc_build()):
-            install_complete = True
+        install_complete = True
 
         #Install the latest build, if that succeeds, run the tests
-        if(install_complete):
+
+        # check if Mocha install or BCC install
+        #if (config.ConfigParams.plugin_install == 'Mocha-AE'):
+        #    if (install_mocha_ae.install_MochaAE()):
+        #        # point to correct file structue here?
+        #        install_complete = True
+        #        email_mocha = True
+
+        #if(config.ConfigParams.plugin_install == 'Sapphire'):
+        #    if(sapphire_install.install_SapphireAE()):
+        #            install_complete = True
+
+        if config.ConfigParams.plugin_install == 'BCC':
+                if install_latest_bcc_build():
+                    install_complete = True
+
+        if (install_complete):
+            activate_license.find_license()
             print("successfully installed!")
 
         #uninstall()

@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3cb72e31-396d-457c-af5c-cd94b7a983db" name="Default Changelist" comment="-basics for license install and uninstall">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/activate_license.py" beforeDir="false" afterPath="$PROJECT_DIR$/activate_license.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/render_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/render_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/silent_install.py" beforeDir="false" afterPath="$PROJECT_DIR$/silent_install.py" afterDir="false" />
     </list>

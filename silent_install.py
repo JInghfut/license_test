@@ -4,6 +4,7 @@ import config
 import subprocess
 import activate_license
 import sapphire_install
+import install_mocha_ae
 import shlex
 #import logging
 #import test_main
@@ -59,8 +60,9 @@ def handle_cmd_args():
         config.ConfigParams.copy_mocha_results = True
         config.ConfigParams.copy_results = False
         config.ConfigParams.license_path = ''
+        config.ConfigParams.license_path = '"C:\\Program Files\\Adobe\\Common\\Plug-ins\\7.0\\MediaCore\\BorisFX\\MochaPro2020\\SharedResources\\bfx-license-tool\\bfx-license-tool"'
 
-    if args.sapphire:
+    elif args.sapphire:
         config.ConfigParams.html_results_filename =  "Sapphire_render_results_"
         config.ConfigParams.log_file_name = 'sapphire_render_'
         config.ConfigParams.plugin_install = 'Sapphire'
@@ -72,7 +74,7 @@ def handle_cmd_args():
         #   Come back to!!!!
         #config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
 
-    if args.pprobcc:
+    elif args.pprobcc:
         config.ConfigParams.html_results_filename = "ppro_render_test_results"
         config.ConfigParams.log_file_name = 'ppro_render'
         # config.ConfigParams.plugin_install = 'BCC'
@@ -80,6 +82,9 @@ def handle_cmd_args():
 
         # Set the application and tests to run to premiere pro:
         config.ConfigParams.run_ppro_tests = True
+
+    else:
+        config.ConfigParams.license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"'
 
 
 def install_latest_bcc_build():
@@ -278,17 +283,17 @@ if __name__ == "__main__":
         #Install the latest build, if that succeeds, run the tests
 
         # check if Mocha install or BCC install
-        #if (config.ConfigParams.plugin_install == 'Mocha-AE'):
-        #    if (install_mocha_ae.install_MochaAE()):
-        #        # point to correct file structue here?
-        #        install_complete = True
+        if (config.ConfigParams.plugin_install == 'Mocha-AE'):
+            if (install_mocha_ae.install_MochaAE()):
+                # point to correct file structue here?
+                install_complete = True
         #        email_mocha = True
 
-        #if(config.ConfigParams.plugin_install == 'Sapphire'):
-        #    if(sapphire_install.install_SapphireAE()):
-        #            install_complete = True
+        elif(config.ConfigParams.plugin_install == 'Sapphire'):
+            if(sapphire_install.install_SapphireAE()):
+                    install_complete = True
 
-        if config.ConfigParams.plugin_install == 'BCC':
+        elif config.ConfigParams.plugin_install == 'BCC':
                 if install_latest_bcc_build():
                     install_complete = True
 

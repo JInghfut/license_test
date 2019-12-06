@@ -21,8 +21,11 @@ def _run_render_test():
     :param is_creating_test_data: a bool stating whether to create test data (written to the expected results folder)
     :return: none
     """
-    project_file =  "\\\\horton\DedupedData\\ae_test_projects\\license_test\\Sapphire_AE\\S_Render\\S_Aurora\\S_Aurora.aep"
-    base_directory = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_shared_proj_results\\license_test\\Sapphire_AE\\S_Render\\S_Aurora'
+    #project_file =  "\\\\horton\DedupedData\\ae_test_projects\\license_test\\Sapphire_AE\\S_Render\\S_Aurora\\S_Aurora.aep"
+    #base_directory = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_shared_proj_results\\license_test\\Sapphire_AE\\S_Render\\S_Aurora'
+    #config_file_path = "C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_scripts\\config.json"
+    project_file =  "\\\\horton\DedupedData\\ae_test_projects\\license_test\\Mocha_AE\\M_Insert\\Insert.aep"
+    base_directory = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_shared_proj_results\\license_test\\Mocha_AE\\M_Insert'
     config_file_path = "C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_scripts\\config.json"
     is_creating_test_data = False
     #if (bcc)

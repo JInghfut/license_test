@@ -4,6 +4,7 @@
     <list default="true" id="3cb72e31-396d-457c-af5c-cd94b7a983db" name="Default Changelist" comment="-basics for license install and uninstall">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/install_mocha_ae.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/render_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/render_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/silent_install.py" beforeDir="false" afterPath="$PROJECT_DIR$/silent_install.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/tests.cfg" afterDir="false" />
@@ -122,5 +123,41 @@
     </ignored-roots>
     <MESSAGE value="-basics for license install and uninstall" />
     <option name="LAST_COMMIT_MESSAGE" value="-basics for license install and uninstall" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/render_test.py</url>
+          <line>98</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/render_test.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/render_test.py</url>
+          <line>82</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/render_test.py</url>
+          <line>135</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/render_test.py</url>
+          <line>136</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/render_test.py</url>
+          <line>49</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

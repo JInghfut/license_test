@@ -172,7 +172,14 @@ class ConfigParams(object):
     nuke_py = ''
 
     license_success = False
-    license_path = ""
+    license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"'
+
+    #License paths
+    sapphire_lic_test = []
+    bcc_lic_test = []
+    mocha_lic_test = []
+
+
 
     @staticmethod
     def init_config():
@@ -199,7 +206,7 @@ class ConfigParams(object):
         # This allows the Jenkins agent to run the scripts right from the git repo and the ae_test_env will not need any other changes (projects, logs, etc. can stay in the same place)
         # The only things that need to change are the shell scripts on Mac and powershell scripts on Win that need to point to the git repo install_and_run.py
         if test_utils.is_win():
-            ConfigParams.config_filename = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\python_scripts\\tests.cfg'
+            ConfigParams.config_filename = 'C:\\Users\\Niall Buckley\\Desktop\\license_test\\tests.cfg'
         elif test_utils.is_mac():
             ConfigParams.config_filename = '/Users/borisfx/Documents/ae_test_env/python_scripts/tests.cfg'
 
@@ -285,6 +292,8 @@ class ConfigParams(object):
                     the_path = os.path.abspath(the_path)
                     ConfigParams.speed_test_directories.append(the_path)
 
+            bcc_lic_test = config.items('BCCAELicTest')
+
             #create mocha file path?
             mocha_directories = config.items('MochaAERenderTestDirectories')
 
@@ -302,6 +311,8 @@ class ConfigParams(object):
                     the_path = os.path.abspath(the_path)
                     ConfigParams.mocha_speed_directories.append(the_path)
 
+            mocha_lic_test = config.items('MochaAELicTest')
+
             #Sapphire file path iterators
             sapphire_directories = config.items('SapphireAERenderTestDirectories')
 
@@ -318,6 +329,33 @@ class ConfigParams(object):
                     the_path = os.path.join(ConfigParams.proj_directory, item[1])
                     the_path = os.path.abspath(the_path)
                     ConfigParams.sapphire_speed_directories.append(the_path)
+
+            #Sapphire license test
+            sapphire_lic_dirs = config.items('SapphireAELicTest')
+
+            for item in sapphire_lic_dirs:
+                if item[0].find('s_lic_test') > -1:
+                    the_path = os.path.join(ConfigParams.proj_directory, item[1])
+                    the_path = os.path.abspath(the_path)
+                    ConfigParams.sapphire_lic_test.append(the_path)
+
+            #Mocha license test
+            mocha_lic_dirs = config.items('MochaAELicTest')
+
+            for item in mocha_lic_dirs:
+                if item[0].find('m_lic_test') > -1:
+                    the_path = os.path.join(ConfigParams.proj_directory, item[1])
+                    the_path = os.path.abspath(the_path)
+                    ConfigParams.mocha_lic_test.append(the_path)
+
+            #BCC license test
+            bcc_lic_dirs = config.items('BCCAELicTest')
+
+            for item in bcc_lic_dirs:
+                if item[0].find('bcc_lic_test') > -1:
+                    the_path = os.path.join(ConfigParams.proj_directory, item[1])
+                    the_path = os.path.abspath(the_path)
+                    ConfigParams.bcc_lic_test.append(the_path)
 
             # Premiere Pro Test Directories:
             # Doesn't exist in the tests.cfg file??
@@ -416,6 +454,16 @@ class ConfigParams(object):
 
             ConfigParams.xlsx_path = os.path.join(ConfigParams.base_directory, 'ARCHIVED_RESULTS')
             ConfigParams.xlsx_path = os.path.abspath(ConfigParams.xlsx_path)
+
+
+            ConfigParams.sapphire_lic_path = os.path.join(ConfigParams.base_directory, "ae_shared_proj_results/license_test/Sapphire_AE/S_Render/S_Aurora")
+            ConfigParams.sapphire_lic_path = os.path.abspath(ConfigParams.render_config_path)
+
+            ConfigParams.mocha_lic_path = os.path.join(ConfigParams.base_directory, "ae_shared_proj_results/license_test/Mocha_AE/M_Insert")
+            ConfigParams.sapphire_lic_path = os.path.abspath(ConfigParams.render_config_path)
+
+            ConfigParams.mocha_lic_path = os.path.join(ConfigParams.base_directory, "ae_shared_proj_results/license_test/Mocha_AE/M_Insert")
+            ConfigParams.sapphire_lic_path = os.path.abspath(ConfigParams.render_config_path)
 
             '''ConfigParams.rclone_cmd = config.get('General', 'rclone_cmd')'''
 

@@ -4,7 +4,6 @@ import config
 import subprocess
 import activate_license
 import sapphire_install
-import install_mocha_ae
 import shlex
 #import logging
 #import test_main
@@ -56,10 +55,9 @@ def handle_cmd_args():
         config.ConfigParams.plugin_install = 'Mocha-AE'
         config.ConfigParams.run_installed_plugins_test = False
         config.ConfigParams.mocha_render_test = True
-        config.ConfigParams.render_test_directories = config.ConfigParams.mocha_test_directories
+        config.ConfigParams.render_test_directories = config.ConfigParams.mocha_lic_test
         config.ConfigParams.copy_mocha_results = True
         config.ConfigParams.copy_results = False
-        config.ConfigParams.license_path = ''
         config.ConfigParams.license_path = '"C:\\Program Files\\Adobe\\Common\\Plug-ins\\7.0\\MediaCore\\BorisFX\\MochaPro2020\\SharedResources\\bfx-license-tool\\bfx-license-tool"'
 
     elif args.sapphire:
@@ -68,7 +66,8 @@ def handle_cmd_args():
         config.ConfigParams.plugin_install = 'Sapphire'
         config.ConfigParams.run_installed_plugins_test = False
         #config.ConfigParams.mocha_render_test = True
-        config.ConfigParams.render_test_directories = config.ConfigParams.sapphire_test_directories
+        config.ConfigParams.render_test_directories = config.ConfigParams.sapphire_lic_test
+        #print('config.ConfigParams.render_test_directories ' + str(config.ConfigParams.render_test_directories))
         config.ConfigParams.license_path = '"C:\\Program Files\\GenArts\\SapphireAE\\license-tool\\license-tool"'
         # shortens the proj length to 5 frames for the render tests
         #   Come back to!!!!
@@ -79,11 +78,11 @@ def handle_cmd_args():
         config.ConfigParams.log_file_name = 'ppro_render'
         # config.ConfigParams.plugin_install = 'BCC'
         config.ConfigParams.run_installed_plugins_test = False
-
         # Set the application and tests to run to premiere pro:
         config.ConfigParams.run_ppro_tests = True
 
     else:
+        config.ConfigParams.render_test_directories = config.ConfigParams.bcc_lic_test
         config.ConfigParams.license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"'
 
 
@@ -283,23 +282,23 @@ if __name__ == "__main__":
         #Install the latest build, if that succeeds, run the tests
 
         # check if Mocha install or BCC install
-        if (config.ConfigParams.plugin_install == 'Mocha-AE'):
-            if (install_mocha_ae.install_MochaAE()):
-                # point to correct file structue here?
-                install_complete = True
+        #if (config.ConfigParams.plugin_install == 'Mocha-AE'):
+        #    if (install_mocha_ae.install_MochaAE()):
+        #        # point to correct file structue here?
+        #        install_complete = True
         #        email_mocha = True
 
-        elif(config.ConfigParams.plugin_install == 'Sapphire'):
-            if(sapphire_install.install_SapphireAE()):
-                    install_complete = True
+        #if(config.ConfigParams.plugin_install == 'Sapphire'):
+        #    if(sapphire_install.install_SapphireAE()):
+        #            install_complete = True
 
-        elif config.ConfigParams.plugin_install == 'BCC':
-                if install_latest_bcc_build():
-                    install_complete = True
+        #if config.ConfigParams.plugin_install == 'BCC':
+        #        if install_latest_bcc_build():
+        #            install_complete = True
 
         if (install_complete):
-            activate_license.find_license()
             print("successfully installed!")
+            activate_license.find_license()
 
         #uninstall()
     except Exception as error:

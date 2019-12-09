@@ -21,16 +21,33 @@ def _run_render_test():
     :param is_creating_test_data: a bool stating whether to create test data (written to the expected results folder)
     :return: none
     """
-    #project_file =  "\\\\horton\DedupedData\\ae_test_projects\\license_test\\Sapphire_AE\\S_Render\\S_Aurora\\S_Aurora.aep"
-    #base_directory = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_shared_proj_results\\license_test\\Sapphire_AE\\S_Render\\S_Aurora'
-    #config_file_path = "C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_scripts\\config.json"
-    project_file =  "\\\\horton\DedupedData\\ae_test_projects\\license_test\\Mocha_AE\\M_Insert\\Insert.aep"
-    base_directory = 'C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_shared_proj_results\\license_test\\Mocha_AE\\M_Insert'
-    config_file_path = "C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\ae_scripts\\config.json"
-    is_creating_test_data = False
+    if config.ConfigParams.run_ppro_tests:
+        test_file_ext = '.prproj'
+    elif config.ConfigParams.run_nuke_tests:
+        test_file_ext = '.nk'
+    else:
+        test_file_ext = '.aep'
+
+    #project_file =  "\\\\horton\\DedupedData\\ae_test_projects\\license_test\\Sapphire_AE\\S_Aurora\\S_Aurora.aep"
+    project_file = config.ConfigParams.render_test_directories[0]
+    print ("project file: " + project_file)
+
+    for subdir, dirs, files in os.walk(project_file):
+        res_tmp = subdir.replace(os.path.abspath(config.ConfigParams.proj_directory), '')
+        base_directory = config.ConfigParams.results_directory + res_tmp
+        if not os.path.isdir(base_directory):
+            os.mkdir(base_directory)
+        if subdir.find("Auto-Save") < 0:
+            for proj_file in files:
+                if proj_file.endswith(test_file_ext):
+                    proj_file = os.path.join(subdir, proj_file)
+                    print("proj_file " + proj_file )
+                    project_file = proj_file
+
+    config_file_path = config.ConfigParams.render_config_path
     #if (bcc)
 
-    _write_config_file(project_file, base_directory, config_file_path, is_creating_test_data)
+    _write_config_file(project_file, base_directory, config_file_path, False)
 
     # this is a precautionary step to make sure the results folders exist, probably not necessary though
     exp_dir = os.path.join(base_directory, "expected_results")
@@ -43,6 +60,7 @@ def _run_render_test():
     if not plat_utils.run_ae_script(config.ConfigParams.render_test_script, config.ConfigParams.target_app):
        print("ERROR RENDERING")
 
+    print("HUh?? " + base_directory)
     _compare_and_report_results(base_directory)
 
 def _compare_render_results(test_results_directory, expected_results_directory):

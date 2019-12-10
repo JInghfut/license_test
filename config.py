@@ -179,7 +179,7 @@ class ConfigParams(object):
     bcc_lic_test = []
     mocha_lic_test = []
 
-
+    file_line = -1
 
     @staticmethod
     def init_config():

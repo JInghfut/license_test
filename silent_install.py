@@ -63,7 +63,7 @@ def handle_cmd_args():
     elif args.sapphire:
         config.ConfigParams.html_results_filename =  "Sapphire_render_results_"
         config.ConfigParams.log_file_name = 'sapphire_render_'
-        config.ConfigParams.plugin_install = 'Sapphire'
+        config.ConfigParams.plugin_install = 'Sapphire-AE'
         config.ConfigParams.run_installed_plugins_test = False
         #config.ConfigParams.mocha_render_test = True
         config.ConfigParams.render_test_directories = config.ConfigParams.sapphire_lic_test
@@ -84,6 +84,7 @@ def handle_cmd_args():
     else:
         config.ConfigParams.render_test_directories = config.ConfigParams.bcc_lic_test
         config.ConfigParams.license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"'
+        config.ConfigParams.plugin_install = 'BCC-AE'
 
 
 def install_latest_bcc_build():

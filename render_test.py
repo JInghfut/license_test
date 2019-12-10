@@ -4,6 +4,7 @@ import subprocess
 import time
 import config
 import image_comp
+import write_license_results
 
 import test_utils
 if test_utils.is_mac():
@@ -60,7 +61,7 @@ def _run_render_test():
     if not plat_utils.run_ae_script(config.ConfigParams.render_test_script, config.ConfigParams.target_app):
        print("ERROR RENDERING")
 
-    print("HUh?? " + base_directory)
+    print("BD " + base_directory)
     _compare_and_report_results(base_directory)
 
 def _compare_render_results(test_results_directory, expected_results_directory):
@@ -117,11 +118,16 @@ def _compare_render_results(test_results_directory, expected_results_directory):
             test_file_path = test_file_path.replace('test_results', '')
             #results.TestResults.add_render_result("Verify Render:{}".format(test_file_path), success, err_desc)
 
+
     if config.ConfigParams.license_success:
+        # write to text file that this serial did work for this product and host
         print("License activated successfully")
+        write_license_results.write_license_results()
         cmd = config.ConfigParams.license_path + ' --deactivate '
         ret_val = subprocess.call(cmd)
     else:
+        # write to text file that this serial didn't work for this product and host
+        write_license_results.write_license_results()
         print("License activated unsuccessfully")
 
 

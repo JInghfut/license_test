@@ -125,6 +125,7 @@ def _compare_render_results(test_results_directory, expected_results_directory):
         write_license_results.write_license_results()
         cmd = config.ConfigParams.license_path + ' --deactivate '
         ret_val = subprocess.call(cmd)
+        config.ConfigParams.license_success = False
     else:
         # write to text file that this serial didn't work for this product and host
         write_license_results.write_license_results()

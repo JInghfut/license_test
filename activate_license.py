@@ -16,7 +16,8 @@ def find_license():
     with open("C:\\Users\\Niall Buckley\\Desktop\\multihost.txt") as file:
         for serial_num in file:
             config.ConfigParams.file_line += 1
-            print("Serial boi: " + serial_num)
+            serial_num = serial_num.rstrip()
+            print("Serial boi: " + serial_num + "here")
             activate_license(serial_num)
 
 

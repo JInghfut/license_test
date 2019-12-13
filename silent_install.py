@@ -58,7 +58,7 @@ def handle_cmd_args():
         config.ConfigParams.render_test_directories = config.ConfigParams.mocha_lic_test
         config.ConfigParams.copy_mocha_results = True
         config.ConfigParams.copy_results = False
-        config.ConfigParams.license_path = '"C:\\Program Files\\Adobe\\Common\\Plug-ins\\7.0\\MediaCore\\BorisFX\\MochaPro2020\\SharedResources\\bfx-license-tool\\bfx-license-tool"'
+        config.ConfigParams.license_path = '"C:\\Program Files\\Adobe\\Common\\Plug-ins\\7.0\\MediaCore\\BorisFX\\MochaPro2020.5\\SharedResources\\bfx-license-tool\\bfx-license-tool"' + ' --feature mocha'
 
     elif args.sapphire:
         config.ConfigParams.html_results_filename =  "Sapphire_render_results_"
@@ -83,7 +83,7 @@ def handle_cmd_args():
 
     else:
         config.ConfigParams.render_test_directories = config.ConfigParams.bcc_lic_test
-        config.ConfigParams.license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"'
+        config.ConfigParams.license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"' + ' --feature bcc'
         config.ConfigParams.plugin_install = 'BCC-AE'
 
 
@@ -289,13 +289,13 @@ if __name__ == "__main__":
         #        install_complete = True
         #        email_mocha = True
 
-        #if(config.ConfigParams.plugin_install == 'Sapphire'):
-        #    if(sapphire_install.install_SapphireAE()):
-        #            install_complete = True
+        if(config.ConfigParams.plugin_install == 'Sapphire'):
+            if(sapphire_install.install_SapphireAE()):
+                    install_complete = True
 
-        #if config.ConfigParams.plugin_install == 'BCC':
-        #        if install_latest_bcc_build():
-        #            install_complete = True
+        if config.ConfigParams.plugin_install == 'BCC':
+                if install_latest_bcc_build():
+                    install_complete = True
 
         if (install_complete):
             print("successfully installed!")

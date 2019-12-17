@@ -2,18 +2,26 @@ import config
 
 
 def write_license_results():
-    #current_serial = config.ConfigParams.file_line
+    # current_serial = config.ConfigParams.file_line
     print("Important!! " + str(config.ConfigParams.file_line))
-    with open("C:\\Users\\Niall Buckley\\Desktop\\multihost - Copy.txt") as file:
+    # if serials:
+    if 1 == 1:
+        file_path = "C:\\Users\\Niall Buckley\\Desktop\\HW.txt"
+    else:
+        file_path = "C:\\Users\\Niall Buckley\\Desktop\\multihost - Copy.txt"
+
+    with open(file_path) as file:
         all_serials = file.readlines()
-        #remove trailing new line (/n)
+        # remove trailing new line (/n)
         for p in all_serials:
             print p
         current = all_serials[config.ConfigParams.file_line].rstrip()
         if config.ConfigParams.license_success:
-            all_serials[config.ConfigParams.file_line] = str(current) + " " + config.ConfigParams.plugin_install + "---Success \n"
+            all_serials[config.ConfigParams.file_line] = str(
+                current) + " " + config.ConfigParams.plugin_install + "---Success \n"
         else:
-            all_serials[config.ConfigParams.file_line] = str(current) + " " + config.ConfigParams.plugin_install + "---Failure \n"
-    with open("C:\\Users\\Niall Buckley\\Desktop\\multihost - Copy.txt", 'w') as k:
+            all_serials[config.ConfigParams.file_line] = str(
+                current) + " " + config.ConfigParams.plugin_install + "---Failure \n"
+    with open(file_path, 'w') as k:
         k.writelines(all_serials)
-        #k.close()
+        # k.close()

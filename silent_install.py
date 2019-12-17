@@ -5,31 +5,35 @@ import subprocess
 import activate_license
 import sapphire_install
 import shlex
-#import logging
-#import test_main
-#import results
+# import logging
+# import test_main
+# import results
 import send_email
-#import argparse
-#import html_result_writer
-#import install_mocha_ae
-#import install_sapphire_ae
+# import argparse
+# import html_result_writer
+# import install_mocha_ae
+# import install_sapphire_ae
 from shutil import copy
-#import copy_results
-#import copy_mocha_results
+# import copy_results
+# import copy_mocha_results
 import time
 import sys
 
 # grab the git hash from build.xml in jenkins jobs folder
 import xml.etree.ElementTree as ET
 
+import server_license
+
 try:
     import faulthandler
+
     faulthandler.enable()
     print 'Faulthandler activated!'
 except ImportError:
     print 'No Faulthandler available!'
 
 import test_utils
+
 if test_utils.is_mac():
     import mac_utils as plat_utils
 elif test_utils.is_win():
@@ -40,8 +44,10 @@ def handle_cmd_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mocha", help="override config file to run tests for mocha", action='store_true')
     parser.add_argument('--sapphire', help='override config file to run tests for Sapphire', action='store_true')
-    parser.add_argument('--pprobcc', help='override config file to run tests for Premiere Pro render test', action='store_true')
-    parser.add_argument('--pprosapphire', help='override config file to run tests for Premiere Pro render test', action='store_true')
+    parser.add_argument('--pprobcc', help='override config file to run tests for Premiere Pro render test',
+                        action='store_true')
+    parser.add_argument('--pprosapphire', help='override config file to run tests for Premiere Pro render test',
+                        action='store_true')
 
     # OFX cmds:
     parser.add_argument("--nukerender", help='', action='store_true')
@@ -61,17 +67,17 @@ def handle_cmd_args():
         config.ConfigParams.license_path = '"C:\\Program Files\\Adobe\\Common\\Plug-ins\\7.0\\MediaCore\\BorisFX\\MochaPro2020.5\\SharedResources\\bfx-license-tool\\bfx-license-tool"' + ' --feature mocha'
 
     elif args.sapphire:
-        config.ConfigParams.html_results_filename =  "Sapphire_render_results_"
+        config.ConfigParams.html_results_filename = "Sapphire_render_results_"
         config.ConfigParams.log_file_name = 'sapphire_render_'
         config.ConfigParams.plugin_install = 'Sapphire-AE'
         config.ConfigParams.run_installed_plugins_test = False
-        #config.ConfigParams.mocha_render_test = True
+        # config.ConfigParams.mocha_render_test = True
         config.ConfigParams.render_test_directories = config.ConfigParams.sapphire_lic_test
-        #print('config.ConfigParams.render_test_directories ' + str(config.ConfigParams.render_test_directories))
+        # print('config.ConfigParams.render_test_directories ' + str(config.ConfigParams.render_test_directories))
         config.ConfigParams.license_path = '"C:\\Program Files\\GenArts\\SapphireAE\\license-tool\\license-tool"'
         # shortens the proj length to 5 frames for the render tests
         #   Come back to!!!!
-        #config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
+        # config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
 
     elif args.pprobcc:
         config.ConfigParams.html_results_filename = "ppro_render_test_results"
@@ -88,12 +94,12 @@ def handle_cmd_args():
 
 
 def install_latest_bcc_build():
-
     print ("install_latest_bcc_build")
     if test_utils.is_mac():
-        config.ConfigParams.sub_build_install_path = config.ConfigParams.sub_build_install_path.replace('BCCAE', 'BCCOFX')
+        config.ConfigParams.sub_build_install_path = config.ConfigParams.sub_build_install_path.replace('BCCAE',
+                                                                                                        'BCCOFX')
 
-    #Find the latest installer
+    # Find the latest installer
     latest_installer = ""
     inst_name = ''
     if os.path.isdir(config.ConfigParams.installer_search_path):
@@ -107,7 +113,8 @@ def install_latest_bcc_build():
                     if item.endswith('.exe'):
                         inst_name = item
     if inst_name != config.ConfigParams.installer_name:
-        print ('Found a different installer name in search dir (' + inst_name + ') : using that one instead of ' + config.ConfigParams.installer_name)
+        print (
+                    'Found a different installer name in search dir (' + inst_name + ') : using that one instead of ' + config.ConfigParams.installer_name)
         config.ConfigParams.installer_name = inst_name
 
     latest_installer = os.path.join(latest_installer, config.ConfigParams.installer_name)
@@ -128,13 +135,13 @@ def install_latest_bcc_build():
 
     print("Installing BCC Build from:{}".format(latest_installer))
     print ("Installing BCC Build from:{}".format(latest_installer))
-    #results.TestResults.installed_build = latest_installer
+    # results.TestResults.installed_build = latest_installer
 
     install_build(dest_path)
     return True
 
-def install_build(installer_path):
 
+def install_build(installer_path):
     if test_utils.is_mac():
         # good for all Mac test systems
         volumes_dir = '/Volumes'
@@ -167,17 +174,18 @@ def install_build(installer_path):
                         bcc_pkg_name = '"' + item + '"'
 
         # run the installer
-        install_cmd = "installer -target / -package /Volumes/" + os.path.splitext(config.ConfigParams.installer_name)[0]  +  "/" + bcc_pkg_name
-        full_cmd = "echo " +  config.ConfigParams.mac_admin_password + " | sudo -S " + install_cmd
+        install_cmd = "installer -target / -package /Volumes/" + os.path.splitext(config.ConfigParams.installer_name)[
+            0] + "/" + bcc_pkg_name
+        full_cmd = "echo " + config.ConfigParams.mac_admin_password + " | sudo -S " + install_cmd
         print (full_cmd)
         retVal = os.system(full_cmd)
 
-        if(retVal != 0):
+        if (retVal != 0):
             raise Exception('Failed to run installer')
 
-        #wait for install to finish?
+        # wait for install to finish?
 
-        #Un-mount the disc image
+        # Un-mount the disc image
         unmount_cmd = 'hdiutil unmount /Volumes/' + os.path.splitext(config.ConfigParams.installer_name)[0]
         retVal = os.system(unmount_cmd)
 
@@ -187,12 +195,12 @@ def install_build(installer_path):
     else:
         # Run the installer in silent
         print(installer_path)
-        #cmd = str(installer_path) + ' /VERYSILENT  /SP-'
-        #works!
+        # cmd = str(installer_path) + ' /VERYSILENT  /SP-'
+        # works!
         cmd = '"C:\\Users\\Niall Buckley\\Documents\\ae_test_env\\BCC13_AE_WinESD.exe"' + ' /VERYSILENT  /SP-'
         ret_val = subprocess.call(cmd)
         print("Finished running the silent install")
-        #activate_license.activate_license(1397-3766-7629-7051)
+        # activate_license.activate_license(1397-3766-7629-7051)
         activate_license.find_license()
 
 
@@ -200,12 +208,12 @@ def get_latest_build_path(base_folder):
     # sets latest builds to search in either builds or jenkins/jobs (jobs is the better option)
     use_builds = False
     if use_builds:
-        thehighest=-1
+        thehighest = -1
         returnfolder = ""
-        for subdir, dirs, files in os.walk(base_folder,topdown=False):
+        for subdir, dirs, files in os.walk(base_folder, topdown=False):
             for dir in dirs:
                 candidatefolder = os.path.join(base_folder, dir)
-                #print (candidatefolder)
+                # print (candidatefolder)
                 if os.path.isdir(candidatefolder):
                     underscore_index = dir.rfind("_")
                     thisdirint = dir[underscore_index + 1:]
@@ -253,6 +261,7 @@ def get_latest_build_path(base_folder):
             return returnfolder2
     return ""
 
+
 # recursively search the xml tree for sha1 git hash
 def search_xml(parent, id):
     for child in parent:
@@ -264,7 +273,7 @@ def search_xml(parent, id):
 
 
 def uninstall():
-    #subprocess.call(["C:\Program Files\GenArts\SapphireAE\unins000.exe",  "/verysilent"])
+    # subprocess.call(["C:\Program Files\GenArts\SapphireAE\unins000.exe",  "/verysilent"])
     cmd = '"C:\\Program Files\\BorisFX\\ContinuumAE\\unins000.exe"' + ' /VERYSILENT'
     # print('py2 said:', py2output)
     ret_val = subprocess.call(cmd)
@@ -280,37 +289,40 @@ if __name__ == "__main__":
 
         install_complete = True
 
-        #Install the latest build, if that succeeds, run the tests
+        # Install the latest build, if that succeeds, run the tests
 
         # check if Mocha install or BCC install
-        #if (config.ConfigParams.plugin_install == 'Mocha-AE'):
+        # if (config.ConfigParams.plugin_install == 'Mocha-AE'):
         #    if (install_mocha_ae.install_MochaAE()):
         #        # point to correct file structue here?
         #        install_complete = True
         #        email_mocha = True
 
-        if(config.ConfigParams.plugin_install == 'Sapphire'):
-            if(sapphire_install.install_SapphireAE()):
-                    install_complete = True
+        if (config.ConfigParams.plugin_install == 'Sapphire'):
+            if (sapphire_install.install_SapphireAE()):
+                install_complete = True
 
         if config.ConfigParams.plugin_install == 'BCC':
-                if install_latest_bcc_build():
-                    install_complete = True
+            if install_latest_bcc_build():
+                install_complete = True
 
         if (install_complete):
             print("successfully installed!")
-            activate_license.find_license()
+            # need change name to from activate_license to serial_license
+            # if serial test:
+            # activate_license.find_license()
+            # if server test:
+            server_license.setup_license()
 
-        #uninstall()
+        # uninstall()
     except Exception as error:
         print("install_and_run_tests: {0}".format(repr(error)))
-        #logging.error("install_and_run_tests: {0}".format(repr(error)))
-        #send_email.error_email("install_and_run_tests: {0}".format(repr(error)), "bot@borisfx.com",
+        # logging.error("install_and_run_tests: {0}".format(repr(error)))
+        # send_email.error_email("install_and_run_tests: {0}".format(repr(error)), "bot@borisfx.com",
         #                       "joe.bruni@borisfx.com", str(config.ConfigParams.machine_name))
 
     except:
         print("install_and_run_tests, Unknown error thrown")
-        #logging.error("install_and_run_tests, Unknown error thrown")
-        #send_email.error_email("install_and_run_tests, Unknown error thrown", "bot@borisfx.com",
+        # logging.error("install_and_run_tests, Unknown error thrown")
+        # send_email.error_email("install_and_run_tests, Unknown error thrown", "bot@borisfx.com",
         #                       "joe.bruni@borisfx.com", str(config.ConfigParams.machine_name))
-

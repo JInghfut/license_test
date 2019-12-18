@@ -48,6 +48,9 @@ def handle_cmd_args():
                         action='store_true')
     parser.add_argument('--pprosapphire', help='override config file to run tests for Premiere Pro render test',
                         action='store_true')
+    parser.add_argument("--mochaserver", help="override config file to run tests for mocha", action='store_true')
+    parser.add_argument("--sapphireserver", help="override config file to run tests for mocha", action='store_true')
+    parser.add_argument("--bccserver", help="override config file to run tests for mocha", action='store_true')
 
     # OFX cmds:
     parser.add_argument("--nukerender", help='', action='store_true')
@@ -56,28 +59,60 @@ def handle_cmd_args():
     args = parser.parse_args()
 
     if args.mocha:
-        config.ConfigParams.html_results_filename = "MPP4BCC-AE_render_results_"
-        config.ConfigParams.log_file_name = 'mpp4ae_render_'
+        #config.ConfigParams.html_results_filename = "MPP4BCC-AE_render_results_"
+        #config.ConfigParams.log_file_name = 'mpp4ae_render_'
         config.ConfigParams.plugin_install = 'Mocha-AE'
         config.ConfigParams.run_installed_plugins_test = False
-        config.ConfigParams.mocha_render_test = True
+        config.ConfigParams.lic_test_type = 'serial'
+        config.ConfigParams.render_test_directories = config.ConfigParams.mocha_lic_test
+        config.ConfigParams.copy_mocha_results = True
+        config.ConfigParams.copy_results = False
+        config.ConfigParams.license_path = '"C:\\Program Files\\Adobe\\Common\\Plug-ins\\7.0\\MediaCore\\BorisFX\\MochaPro2020.5\\SharedResources\\bfx-license-tool\\bfx-license-tool"' + ' --feature mocha'
+
+    elif args.mochaserver:
+        #config.ConfigParams.html_results_filename = "MPP4BCC-AE_render_results_"
+        #config.ConfigParams.log_file_name = 'mpp4ae_render_'
+        config.ConfigParams.plugin_install = 'Mocha-AE'
+        config.ConfigParams.run_installed_plugins_test = False
+        config.ConfigParams.lic_test_type = 'server'
         config.ConfigParams.render_test_directories = config.ConfigParams.mocha_lic_test
         config.ConfigParams.copy_mocha_results = True
         config.ConfigParams.copy_results = False
         config.ConfigParams.license_path = '"C:\\Program Files\\Adobe\\Common\\Plug-ins\\7.0\\MediaCore\\BorisFX\\MochaPro2020.5\\SharedResources\\bfx-license-tool\\bfx-license-tool"' + ' --feature mocha'
 
     elif args.sapphire:
-        config.ConfigParams.html_results_filename = "Sapphire_render_results_"
-        config.ConfigParams.log_file_name = 'sapphire_render_'
+        #config.ConfigParams.html_results_filename = "Sapphire_render_results_"
+        #config.ConfigParams.log_file_name = 'sapphire_render_'
         config.ConfigParams.plugin_install = 'Sapphire-AE'
         config.ConfigParams.run_installed_plugins_test = False
         # config.ConfigParams.mocha_render_test = True
+        config.ConfigParams.lic_test_type = 'serial'
         config.ConfigParams.render_test_directories = config.ConfigParams.sapphire_lic_test
         # print('config.ConfigParams.render_test_directories ' + str(config.ConfigParams.render_test_directories))
         config.ConfigParams.license_path = '"C:\\Program Files\\GenArts\\SapphireAE\\license-tool\\license-tool"'
         # shortens the proj length to 5 frames for the render tests
         #   Come back to!!!!
         # config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
+
+    elif args.sapphireserver:
+        #config.ConfigParams.html_results_filename = "Sapphire_render_results_"
+        #config.ConfigParams.log_file_name = 'sapphire_render_'
+        config.ConfigParams.plugin_install = 'Sapphire-AE'
+        config.ConfigParams.run_installed_plugins_test = False
+        # config.ConfigParams.mocha_render_test = True
+        config.ConfigParams.lic_test_type = 'server'
+        config.ConfigParams.render_test_directories = config.ConfigParams.sapphire_lic_test
+        # print('config.ConfigParams.render_test_directories ' + str(config.ConfigParams.render_test_directories))
+        config.ConfigParams.license_path = '"C:\\Program Files\\GenArts\\SapphireAE\\license-tool\\license-tool"'
+        # shortens the proj length to 5 frames for the render tests
+        #   Come back to!!!!
+        # config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
+
+    elif args.bccserver:
+        config.ConfigParams.render_test_directories = config.ConfigParams.bcc_lic_test
+        config.ConfigParams.license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"' + ' --feature bcc'
+        config.ConfigParams.plugin_install = 'BCC-AE'
+        config.ConfigParams.lic_test_type = 'server'
 
     elif args.pprobcc:
         config.ConfigParams.html_results_filename = "ppro_render_test_results"
@@ -91,6 +126,7 @@ def handle_cmd_args():
         config.ConfigParams.render_test_directories = config.ConfigParams.bcc_lic_test
         config.ConfigParams.license_path = '"C:\\Program Files\\BorisFX\ContinuumAE\\13\\utilities\\bfx-license-tool\\bfx-license-tool"' + ' --feature bcc'
         config.ConfigParams.plugin_install = 'BCC-AE'
+        config.ConfigParams.lic_test_type = 'serial'
 
 
 def install_latest_bcc_build():
@@ -309,10 +345,11 @@ if __name__ == "__main__":
         if (install_complete):
             print("successfully installed!")
             # need change name to from activate_license to serial_license
-            # if serial test:
-            # activate_license.find_license()
+            if config.ConfigParams.lic_test_type == 'server':
+                server_license.setup_license()
+            elif config.ConfigParams.lic_test_type == 'serial':
+                activate_license.find_license()
             # if server test:
-            server_license.setup_license()
 
         # uninstall()
     except Exception as error:

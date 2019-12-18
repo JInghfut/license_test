@@ -42,7 +42,7 @@ def _run_render_test():
             for proj_file in files:
                 if proj_file.endswith(test_file_ext):
                     proj_file = os.path.join(subdir, proj_file)
-                    print("proj_file " + proj_file )
+                    print("proj_file " + proj_file)
                     project_file = proj_file
 
     config_file_path = config.ConfigParams.render_config_path

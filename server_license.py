@@ -9,7 +9,8 @@ def setup_license():
         for license_file in files:
             print (license_file)
             cmd = 'robocopy "C:\\Users\\Niall Buckley\\Desktop\\server_licenses" "C:\\Program Files\\BorisFX\\rlm" ' + str(license_file)
-            retVal = subprocess.call(cmd)
+            subprocess.call(cmd)
+            #print(cmd + " LAA " + str(retVal))
             refresh_server()
             config.ConfigParams.file_line += 1
             render_test._run_render_test()
@@ -25,5 +26,4 @@ def refresh_server():
 
 def remove_license(license_file):
     deleteCmd ='del ' + '"C:\\Program Files\\BorisFX\\rlm\\' + str(license_file) + '"'
-    print(deleteCmd)
-    retVal = subprocess.call(deleteCmd, shell=True)
+    subprocess.call(deleteCmd, shell=True)

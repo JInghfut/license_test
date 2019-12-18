@@ -4,7 +4,6 @@ import render_test
 
 
 def activate_license(serial_num):
-    #config.ConfigParams.license_path
     cmd = config.ConfigParams.license_path + ' --activate ' + serial_num
     print(cmd)
     ret_val = subprocess.call(cmd)
@@ -17,7 +16,6 @@ def find_license():
         for serial_num in file:
             config.ConfigParams.file_line += 1
             serial_num = serial_num.rstrip()
-            print("Serial boi: " + serial_num + "here")
             activate_license(serial_num)
 
 

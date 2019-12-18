@@ -181,6 +181,8 @@ class ConfigParams(object):
 
     file_line = -1
 
+    lic_test_type = ''
+
     @staticmethod
     def init_config():
         """
@@ -270,7 +272,7 @@ class ConfigParams(object):
             ConfigParams.run_render_test = config.getboolean('TestsToRun', "run_render_test")
             ConfigParams.run_speed_test = config.getboolean('TestsToRun', "run_speed_test")
             ConfigParams.times_to_run_speed_test = config.getint('TestsToRun', "times_to_run_speed_test")
-            ConfigParams.run_mocha_render_test = config.getboolean('TestsToRun', 'mocha_render_test')
+            #ConfigParams.run_mocha_render_test = config.getboolean('TestsToRun', 'mocha_render_test')
 
             # Load the RenderTestDirectories section
             #render_directories = config.items('RenderTestDirectories')

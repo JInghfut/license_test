@@ -1,3 +1,5 @@
+# Activate the license using .lic file placed into local server - used for server license testing
+
 import os
 import subprocess
 import render_test

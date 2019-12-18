@@ -1,3 +1,5 @@
+# Activate the license using serial number - used for serial license testing
+
 import subprocess
 import config
 import render_test

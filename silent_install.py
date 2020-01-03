@@ -8,7 +8,7 @@ import shlex
 # import logging
 # import test_main
 # import results
-import send_email
+# import send_email
 # import argparse
 # import html_result_writer
 # import install_mocha_ae
@@ -17,7 +17,7 @@ from shutil import copy
 # import copy_results
 # import copy_mocha_results
 import time
-import sys
+# import sys
 
 # grab the git hash from build.xml in jenkins jobs folder
 import xml.etree.ElementTree as ET
@@ -334,13 +334,13 @@ if __name__ == "__main__":
         #        install_complete = True
         #        email_mocha = True
 
-        if (config.ConfigParams.plugin_install == 'Sapphire'):
-            if (sapphire_install.install_SapphireAE()):
-                install_complete = True
+        #if (config.ConfigParams.plugin_install == 'Sapphire'):
+        #    if (sapphire_install.install_SapphireAE()):
+        #        install_complete = True
 
-        if config.ConfigParams.plugin_install == 'BCC':
-            if install_latest_bcc_build():
-                install_complete = True
+        #if config.ConfigParams.plugin_install == 'BCC':
+        #    if install_latest_bcc_build():
+        #       install_complete = True
 
         if (install_complete):
             print("successfully installed!")

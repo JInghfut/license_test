@@ -210,7 +210,7 @@ class ConfigParams(object):
         if test_utils.is_win():
             ConfigParams.config_filename = 'C:\\Users\\Niall Buckley\\Desktop\\license_test\\tests.cfg'
         elif test_utils.is_mac():
-            ConfigParams.config_filename = '/Users/borisfx/Documents/ae_test_env/python_scripts/tests.cfg'
+            ConfigParams.config_filename = '/Users/borisfx/Desktop/license_test/tests.cfg'
 
         print("config_path1: " + ConfigParams.config_filename)
         config_path = os.path.join(application_path, ConfigParams.config_filename)

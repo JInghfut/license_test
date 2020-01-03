@@ -37,6 +37,7 @@ def _run_render_test():
         res_tmp = subdir.replace(os.path.abspath(config.ConfigParams.proj_directory), '')
         base_directory = config.ConfigParams.results_directory + res_tmp
         if not os.path.isdir(base_directory):
+            print(base_directory)
             os.mkdir(base_directory)
         if subdir.find("Auto-Save") < 0:
             for proj_file in files:
@@ -123,8 +124,12 @@ def _compare_render_results(test_results_directory, expected_results_directory):
         # write to text file that this serial did work for this product and host
         print("License activated successfully")
         write_license_results.write_license_results()
-        cmd = config.ConfigParams.license_path + ' --deactivate '
-        ret_val = subprocess.call(cmd)
+        #cmd = config.ConfigParams.license_path + ' --deactivate '
+        # BCC lic tool: _MEIPASS2=/Applications/Boris\ Continuum\ Complete\ 12.0/config/bfx-tools-pylib /Applications/Boris\ Continuum\ Complete\ 12.0/config/Boris\ FX\ License\ Tool.app/Contents/MacOS/bfx-license-tool
+        mac_bcc_lic_tool = "_MEIPASS2=/Applications/Boris\ Continuum\ Complete\ 13.0/config/bfx-tools-pylib /Applications/Boris\ Continuum\ Complete\ 13.0/config/Boris\ FX\ License\ Tool.app/Contents/MacOS/bfx-license-tool"
+        cmd = mac_bcc_lic_tool + "deactivate"
+        #os.system(cmd)
+        #ret_val = subprocess.call(cmd)
         config.ConfigParams.license_success = False
     else:
         # write to text file that this serial didn't work for this product and host

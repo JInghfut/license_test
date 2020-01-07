@@ -126,10 +126,15 @@ def _compare_render_results(test_results_directory, expected_results_directory):
         write_license_results.write_license_results()
         #cmd = config.ConfigParams.license_path + ' --deactivate '
         # BCC lic tool: _MEIPASS2=/Applications/Boris\ Continuum\ Complete\ 12.0/config/bfx-tools-pylib /Applications/Boris\ Continuum\ Complete\ 12.0/config/Boris\ FX\ License\ Tool.app/Contents/MacOS/bfx-license-tool
-        mac_bcc_lic_tool = "_MEIPASS2=/Applications/Boris\ Continuum\ Complete\ 13.0/config/bfx-tools-pylib /Applications/Boris\ Continuum\ Complete\ 13.0/config/Boris\ FX\ License\ Tool.app/Contents/MacOS/bfx-license-tool"
-        cmd = mac_bcc_lic_tool + "deactivate"
+        #mac_bcc_lic_tool = "_MEIPASS2=/Applications/Boris\ Continuum\ Complete\ 13.0/config/bfx-tools-pylib /Applications/Boris\ Continuum\ Complete\ 13.0/config/Boris\ FX\ License\ Tool.app/Contents/MacOS/bfx-license-tool"
+        lic_tool = config.ConfigParams.license_path
+        print("lic tool " + lic_tool)
+        cmd = lic_tool + " --deactivate"
         #os.system(cmd)
-        #ret_val = subprocess.call(cmd)
+        if test_utils.is_win():
+            subprocess.call(cmd)
+        elif test_utils.is_win():
+            os.system(cmd)
         config.ConfigParams.license_success = False
     else:
         # write to text file that this serial didn't work for this product and host

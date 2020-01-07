@@ -7,7 +7,8 @@ def write_license_results():
     print("Important!! " + str(config.ConfigParams.file_line))
     # if serials:
     if config.ConfigParams.lic_test_type == 'server':
-        file_path = "/Users/borisfx/Desktop/hw.txt"
+        # file_path = "/Users/borisfx/Desktop/hw.txt"
+        file_path = config.ConfigParams.license_test_dir + "\\hw.txt"
         #file_path = "C:\\Users\\Niall Buckley\\Desktop\\HW.txt"
     elif  config.ConfigParams.lic_test_type == 'serial':
         file_path = "C:\\Users\\Niall Buckley\\Desktop\\multihost - Copy.txt"

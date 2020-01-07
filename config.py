@@ -36,6 +36,9 @@ class ConfigParams(object):
 
     copy_mocha_results = False
 
+
+
+
     # results and logs
     html_results_subfolder = "html_results"  # path to put the html file
     html_results_filename = "BCC_test_results_"  # the date stamp will be appended
@@ -67,6 +70,11 @@ class ConfigParams(object):
 
     installed_plugin_test_folder = ""
     installed_plugin_test_results = ""
+
+    mocha_licensing_path = ""
+    bcc_licensing_path = ""
+    sapphire_licensing_path = ""
+
 
     # run_render_test Bool: true or false
     # If true any AE Project file found in the render_test_directories array will be loaded, images rendered
@@ -250,6 +258,16 @@ class ConfigParams(object):
                 ConfigParams.installer_search_path = config.get('General', "installer_search_path_win")
                 ConfigParams.installer_name = config.get('General', "installer_name_win")
 
+            # Load Licensing path
+            if test_utils.is_mac():
+                ConfigParams.mocha_licensing_path = config.get('LicensePath', "Mocha_mac_lic")
+                ConfigParams.bcc_licensing_path = config.get('LicensePath', "BCC_mac_lic")
+                ConfigParams.sapph_licensing_path = config.get('LicensePath', "Sapph_mac_lic")
+            elif test_utils.is_win():
+                ConfigParams.mocha_licensing_path = config.get('LicensePath', "Mocha_win_lic")
+                ConfigParams.bcc_licensing_path = config.get('LicensePath', "BCC_win_lic")
+                ConfigParams.sapph_licensing_path = config.get('LicensePath', "Sapph_win_lic")
+
             ConfigParams.base_directory = config.get('General', "base_directory")
             # expand the path or some calls will fail
             ConfigParams.base_directory = os.path.expanduser(ConfigParams.base_directory)
@@ -258,6 +276,14 @@ class ConfigParams(object):
             # Now that we've loaded the data from the config, fill in the paths that we create from the base_directory
             if not os.path.exists(ConfigParams.base_directory):
                 print("***ConfigParams::init_config base_directory doesn't exist: " + ConfigParams.base_directory)
+
+            # License Testing path
+            ConfigParams.license_test_dir = config.get('General', "license_test_dir")
+            ConfigParams.license_test_dir = os.path.expanduser(ConfigParams.license_test_dir)
+            ConfigParams.license_test_dir = os.path.abspath(ConfigParams.license_test_dir)
+
+            if not os.path.exists(ConfigParams.license_test_dir):
+                print("***ConfigParams::init_config license test dir doesn't exist: " + ConfigParams.license_test_dir)
 
             # horton projects:
             ConfigParams.proj_directory = config.get('General', 'proj_directory')

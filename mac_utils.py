@@ -9,7 +9,6 @@
 # currently the only necessary code is related to calling
 # AE via applescript which is how we need to call AE on
 # mac in order to pass a script file
-#
 
 #from Foundation import *
 import applescript

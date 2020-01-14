@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3cb72e31-396d-457c-af5c-cd94b7a983db" name="Default Changelist" comment="-basics for license install and uninstall">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mac_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/mac_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_license.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_license.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +60,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/silent_install.py" />
-      <option name="PARAMETERS" value="--mocha" />
+      <option name="PARAMETERS" value="--sapphire" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />

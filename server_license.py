@@ -13,7 +13,7 @@ def setup_license():
     print("proj dir " + config.ConfigParams.proj_directory)
     # Need to find place for licenses.
     # g = config.ConfigParams.proj_directory + "license_test/Licenses/server_licenses"
-    # g = "~/Desktop/server_licenses" 
+    # g = "~/Desktop/server_licenses"
     g = config.ConfigParams.license_test_dir + "\\server_licenses"
     print(g)
     # g = "C:\\Users\\Niall Buckley\\Desktop\\server_licenses"

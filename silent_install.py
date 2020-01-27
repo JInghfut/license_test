@@ -111,7 +111,7 @@ def handle_cmd_args():
         # shortens the proj length to 5 frames for the render tests
         #   Come back to!!!!
         # config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
-        # Delete This also This This This This This This This This This This This This This This This This This This This
+        # Delete This also This This This This This This This This This This This This This This This This This This Thiss
 
     elif args.bccserver:
         config.ConfigParams.render_test_directories = config.ConfigParams.bcc_lic_test

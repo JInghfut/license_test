@@ -94,7 +94,7 @@ def handle_cmd_args():
         # config.ConfigParams.license_path = '"C:\\Program Files\\GenArts\\SapphireAE\\license-tool\\license-tool"'
         config.ConfigParams.license_path = config.ConfigParams.sapph_licensing_path
         # shortens the proj length to 5 frames for the render tests
-        #   Come back to!!!! OKKKAAYYyy
+        #   Come back to!!!! OKKKAAYYyyy
         # config.ConfigParams.render_test_script = os.path.join(config.ConfigParams.base_directory, "ae_scripts/render_sapph_test_tiff.jsx")
 
     elif args.sapphireserver:
